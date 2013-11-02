@@ -1,0 +1,20 @@
+i have to make this in flask first in order to sort out my thinking process
+i am trying to improve my thinking regarding frameworks
+
+
+db:
+USER table
+- id
+- fname
+- lname
+[- age]
+[- gender]
+- toastPrefs
+- toastPrefsOfOthers
+- usersTheyHaveAlreadyBeenMatchedWith
+
+matching function
+def isMatch(a,b):
+  if b not in a.usersNo and b.toastPrefs == a.toastPrefsO and b.toastPrefsO == a.toastPrefs:
+    return True
+  return False 
