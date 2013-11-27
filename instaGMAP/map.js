@@ -1,4 +1,5 @@
 var map;
+var instagramClient = "de775615dc8e45de8290ea0f8c9b6e29";
 
 function makeMap(){
   var mapOptions = {
@@ -12,6 +13,8 @@ function makeMap(){
   });
 }
 
+//puts an info window on the map
+//with a photo
 function placeMarker(location){
   var info = new google.maps.InfoWindow({
     content: location.lat().toFixed(4)+", "+location.lng().toFixed(4),
