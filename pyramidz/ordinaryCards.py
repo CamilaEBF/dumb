@@ -10,7 +10,7 @@ class Deck:
         self.cards.append(card)
   def shuffle(self):
     for i in range(random.randint(len(self.cards),130)):
-      self.cards.append(self.cards.pop(random.randint(0,51)))
+      self.cards.append(self.cards.pop(random.randint(0,len(self.cards)-1)))
   def __str__(self):
     for i in self.cards:
       print i,
@@ -34,8 +34,3 @@ class Card:
       self.face = self.value
   def __str__(self):
     return str(self.face)+"o"+self.suit
-
-#newDeck = Deck(Card)
-#print newDeck
-#newDeck.shuffle()
-#print newDeck
