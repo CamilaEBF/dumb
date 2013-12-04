@@ -23,6 +23,9 @@ class myTest(unittest.TestCase):
     game = pyr.PyramidGame()
     print game.pyramid
     game.play()
+    #test for losing
+    #test for winning
+    #i think i have to build a thing that plays.  ugh
 
 if __name__ == "__main__":
   unittest.main()
