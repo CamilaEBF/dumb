@@ -39,7 +39,8 @@ class Pyramid:
         hold -= 1 
       j.updateStatus()
       if not j.hidden:
-        self.covered.pop(i)
+        lol = self.covered.pop(i)
+        self.uncovered.append(lol)
       i -= 1
   def remove(self, card):
     self.uncovered.remove(card)
@@ -101,7 +102,7 @@ class PyramidGame:
       return True
   def isLost(self):
     #check if all the cards in the flipdeck are gone but there are still cards in the pyramid
-    if len(self.flipdeck) == 0 and len(self.pyramidCards) > 0:
+    if self.currentCard == None and len(self.pyramidCards) > 0:
       return True
   def play(self):
     #initialize thing
@@ -120,21 +121,27 @@ class PyramidGame:
     if move == 'N': #i have to change this to something less stupid
       self.getNewCard()
     else:
-      card = self.pyramid.uncovered[move]
-      self.useCard(card)
+      try:
+        card = self.pyramid.uncovered[move]
+        self.useCard(card)
+      except:  
+        print "that is not a valid index"
   def getNewCard(self):
     #pop the top card of flipdeck
     #set current card to it
-    self.currentCard = self.flipdeck.cards.pop(0)
-    self.currentCard.hidden = False
+    if len(self.flipdeck) == 0:
+      self.currentCard = None
+    else:
+      self.currentCard = self.flipdeck.cards.pop(0)
+      self.currentCard.hidden = False
   def useCard(self, idx):
     card = self.pyramidCards[idx]
-    if (self.currentCard == None) or (card.value == (self.currentCard.value+1)%13) or (card.value == (self.currentCard.value-1)%13):
+    if (self.currentCard == None) or (card.value == (self.currentCard.value%13)+1) or ((card.value%13)+1 == self.currentCard.value):
       self.currentCard = card
       self.pyramid.remove(idx)
       #noncrucial elements
       self.streak += 1
       self.points += self.streak * self.WEIGHT
     else:
-      print "invalid move"
+      print self.currentCard,"has value",self.currentCard.value,"which is not + or - 1",card,"with value",card.value,"invalid move"
 
