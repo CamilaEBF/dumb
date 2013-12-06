@@ -25,9 +25,9 @@ function shuffle(deck) {
 }
 
 function createPyramid(pDeck) {
-  // deck that will be used in creating a pyramid
-  // line up the rows of the pyramid
+  // take in args a deck that will be used in creating a pyramid
   var pyramid = [];
+  // line up the rows of the pyramid
   var n = 0;
   for (var row = 0; row < 7; row++) {
     pyramid[row] = [];
@@ -35,8 +35,11 @@ function createPyramid(pDeck) {
     for (var pos = 0; pos <= row; pos++) {
       cardHolder = {};
       cardHolder['card'] = n+pos;
-      cardHolder['left'] = (n+row+1)+pos;
-      cardHolder['right'] = (n+row+1)+pos+1;
+      var left = (n+(row+1))+pos;
+      var right = left + 1
+      cardHolder['left'] = (pDeck[left] != undefined) ? left : undefined;
+      cardHolder['right'] = (pDeck[right] != undefined) ? right : undefined;
+      cardHolder['hidden'] = !((cardHolder['left'] == undefined) && (cardHolder['right'] == undefined));
       pyramid[row][pos] = cardHolder;
     }
   }
@@ -49,21 +52,29 @@ function createPyramid(pDeck) {
       pyrtext += Array(7-row).join("&nbsp;&nbsp;&nbsp;");
       for (var pos = 0; pos <= row; pos++) {
         var idx = pyramid[row][pos]['card'];
-        var card = pDeck[idx];
-        var suit = card['suit'];
-        var value = card['value'];
-        if (value == 0) {
-          value = 'K';
-        } else if (value == 1) {
-          value = 'A';
-        } else if (value == 11) {
-          value = 'J';
-        } else if (value == 12) {
-          value = 'Q';
+        var suit;
+        var value;
+        var hidden = pyramid[row][pos]['hidden']; //need to put in this property
+        //if status is hidden, display XoX instead, and also don't make it clickable
+        if (hidden) {
+          pyrtext += "XoY&nbsp;&nbsp;&nbsp;";
         } else {
-          value = value.toString();
+          var card = pDeck[idx];
+          var suit = card['suit'];
+          var value = card['value'];
+          if (value == 0) {
+            value = 'K';
+          } else if (value == 1) {
+            value = 'A';
+          } else if (value == 11) {
+            value = 'J';
+          } else if (value == 12) {
+            value = 'Q';
+          } else {
+            value = value.toString();
+          }
+          pyrtext += "<a href='#'>"+value+'o'+suit+"</a>&nbsp;&nbsp;&nbsp;";
         }
-        pyrtext += value+'o'+suit+"&nbsp;&nbsp;&nbsp;";
       }
       pyrtext += "<br/>";
     }
