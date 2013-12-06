@@ -46,7 +46,7 @@ function createPyramid(pDeck) {
     //will take in an argument that is an array of pyramid rows
     var pyrtext = '';
     for (var row = 0; row < 7; row++) {
-      pyrtext += Array(7-row).join("   ");
+      pyrtext += Array(7-row).join("&nbsp;&nbsp;&nbsp;");
       for (var pos = 0; pos <= row; pos++) {
         var idx = pyramid[row][pos]['card'];
         var card = pDeck[idx];
@@ -63,9 +63,9 @@ function createPyramid(pDeck) {
         } else {
           value = value.toString();
         }
-        pyrtext += value+'o'+suit+'   ';
+        pyrtext += value+'o'+suit+"&nbsp;&nbsp;&nbsp;";
       }
-      pyrtext += '\n';
+      pyrtext += "<br/>";
     }
     return pyrtext; 
   };
@@ -93,7 +93,7 @@ function createPyramidsGame() {
   pDeck = shuffle(pDeck);
   // create the pyramid with the pDeck
   var pyramidObj = createPyramid(pDeck);
-  console.log(pyramidObj.print());
+  $('#game').html(pyramidObj.print());
   // the rest of the cards go in the flipdeck
   // shuffle the flipdeck
   var flipDeck = shuffle(myDeck);
