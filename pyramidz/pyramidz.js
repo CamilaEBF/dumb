@@ -2,6 +2,11 @@
 //ok we won't do this with objects. i still know how.
 
 /*
+eventually i will move this to another file but for now i just wanna jot down something really quick
+game setup
+*/
+
+/*
 helper functions to be used in initializing the game
 */
 
@@ -47,17 +52,16 @@ function createPyramid(pDeck) {
   pyramidObj['pyra'] = pyramid;
   pyramidObj['print'] = function () {
     //will take in an argument that is an array of pyramid rows
-    var pyrtext = '';
+    var pyramidList = $("<div id='pyramid'></div>");
     for (var row = 0; row < 7; row++) {
-      pyrtext += Array(7-row).join("&nbsp;&nbsp;&nbsp;");
       for (var pos = 0; pos <= row; pos++) {
         var idx = pyramid[row][pos]['card'];
-        var suit;
-        var value;
+        var LI = $("<div></div>"); //pyramidList.find('li:nth-of-type('+(idx+1)+')');
         var hidden = pyramid[row][pos]['hidden']; //need to put in this property
         //if status is hidden, display XoX instead, and also don't make it clickable
         if (hidden) {
-          pyrtext += "XoY&nbsp;&nbsp;&nbsp;";
+          LI.text("XoY");
+          LI.addClass("hidden");
         } else {
           var card = pDeck[idx];
           var suit = card['suit'];
@@ -73,12 +77,13 @@ function createPyramid(pDeck) {
           } else {
             value = value.toString();
           }
-          pyrtext += "<a href='#'>"+value+'o'+suit+"</a>&nbsp;&nbsp;&nbsp;";
+          LI.text(value+"o"+suit);
         }
+        pyramidList.append(LI);
       }
-      pyrtext += "<br/>";
+      pyramidList.append($("<br/>"));
     }
-    return pyrtext; 
+    $("#game").append(pyramidList);
   };
   return pyramidObj;
 }
@@ -91,6 +96,7 @@ initialize game
 - and printing pyramid to the browser window
 */
 function createPyramidsGame() {
+  //probablywontkeepthisherebutthisisquickndirty
   // create a deck
   var myDeck = createDeck();
   var pDeck = [];

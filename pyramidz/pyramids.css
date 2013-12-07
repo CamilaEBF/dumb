@@ -1,0 +1,10 @@
+#game {
+  text-align: center;
+}
+#pyramid {
+  
+}
+#pyramid div {
+  margin: 10px;
+  display: inline;
+}
