@@ -4,10 +4,19 @@ html, body {
 #game {
   text-align: center;
 }
+#error {
+  color: rosybrown;
+}
 #pyramid {
   
 }
 #pyramid div {
   margin: 10px;
   display: inline;
+}
+#pyramid .hidden {
+  color: skyblue;
+}
+#pyramid .unhidden {
+  cursor: pointer;
 }
