@@ -134,7 +134,6 @@ function createPyramidsGame() {
   flipDeck = shuffle(myDeck);
   // pop the last card off the flipdeck and set it to currentCard
   var currentCard = flipDeck.pop();
-  console.log(currentCard);
   // connect the pyramid and the currentCard to divs
   var ccard = $("<div id='current'></div>"); 
   ccard.text(getText(currentCard));
@@ -156,10 +155,6 @@ what happens when user clicks a div element
 */
 
 function newCard() {
-  if (typeof(pDeck[0]) == 'undefined') {
-    alert("you've already won... what are you doing");
-    return;
-  }
   var current = $('#current');
   var x = flipDeck.pop();
   if (typeof(x) == 'undefined') {
@@ -189,6 +184,13 @@ function useCard() {
       pDeck[idx] = undefined;
       $(this).html("&nbsp;&nbsp;&nbsp").removeClass("unhidden").unbind('click');
       $(this).removeData('idx');
+      if (idx == 0) {
+        alert('YOU WON');
+        currentCard.text('');
+        var button = $('button');
+        button.text('HOT STREAK-- Play again!');
+        button.unbind('click').click(function() {location.reload();});
+      }
     } else {
       $("#error").text("invalid move because "+$(this).text()+" is not one more or one less than "+currentCard.text());
     }
