@@ -1,9 +1,32 @@
 //pyramids!!!
 //ok we won't do this with objects. i still know how.
 
+var lost = false;
 var pDeck = [];
 var flipDeck = [];
-var pyramid = [];
+var pyramid = constructPyramidStructure(); // this is just a structure for the pyramid. this never changes.
+
+/*
+this constructs the generic structure for a 7 row pyramid
+it will have space for 28 cards
+*/
+function constructPyramidStructure() {
+  var numRows = 7;
+  var pStructure = [];
+  var counter = 0; // zero-based indexing
+  for (var row = 0; row < numRows-1; row++) {
+    counter += row;
+    for (var pos = 0; pos <= row; pos++) {
+      var current = counter + pos;
+      pStructure.push([(row+1)+current, (row+1)+current+1]);
+    }
+  }
+  // the last row will always be uncovered
+  for (var pos = 0; pos <= numRows; pos++) {
+    pStructure.push([undefined,undefined]);
+  }
+  return pStructure;
+}
 
 /*
 helper functions to be used in initializing the game
@@ -34,21 +57,10 @@ function getValue(value) {
   }
 }
 
-function cardElement(identifier) {
-  var playingCard = $("<div></div>");
-  var card;
-  if (typeof(identifier) == 'number') {
-    playingCard.attr('data-idx',identifier);
-    card = pDeck[identifier];
-  } else {
-    playingCard.attr('id','current');
-    card = identifier;
-  }
+function getText(card) {
   var suit = card['suit'];
-  var value = card['value'];
-  playingCard.attr('data-value',value);
-  playingCard.text(getValue(value)+'o'+suit);
-  return playingCard;
+  var value = getValue(card['value']);
+  return value+'o'+suit;
 }
 
 function shuffle(deck) {
@@ -59,36 +71,42 @@ function shuffle(deck) {
   return deck;
 }
 
-function createPyramid() {
-  // take in args a deck that will be used in creating a pyramid
+function updateCardDisplay(i) {
+  // FOR NEWLY UNHIDDEN CARDS
+  var div = $("#pyramid > div:nth-of-type("+(i+1)+")");
+  div.removeClass("hidden").addClass("unhidden");
+  div.text(getText(pDeck[i]));
+  div.click(useCard);
+}
+
+function determineStatus(i) {
+  return ((typeof(pyramid[i][0]) == 'undefined') && (typeof(pyramid[i][1]) == 'undefined'));
+}
+
+function createDisplay() {
+  // readies display
   var pyramidDiv = $("<div id='pyramid'></div>"); 
-  // line up the rows of the pyramid
-  var n = 0;
+  var counter = 0;
   for (var row = 0; row < 7; row++) {
-    n += row //the index of the 0th position of each row
+    counter += row 
     for (var pos = 0; pos <= row; pos++) {
-      var cardHolder = {};
-      var LI; 
-      var left = (n+pos)+(row+1);
-      var right = left + 1
-      cardHolder['left'] = (pDeck[left] != undefined) ? left : undefined;
-      cardHolder['right'] = (pDeck[right] != undefined) ? right : undefined;
-      if (!((cardHolder['left'] == undefined) && (cardHolder['right'] == undefined))) {
-        LI = $("<div></div>");
+      var current = counter + pos
+      var LI = $("<div></div>");
+      LI.attr('data-idx',current);
+      if (determineStatus(current)) {
+        LI.text(getText(pDeck[current])); 
+        LI.addClass("unhidden");
+        LI.click(useCard);
+      } else {
         LI.text("XoY");
         LI.addClass("hidden");
-      } else {
-        LI = cardElement(n+pos);
-        LI.addClass("unhidden");
       }
-      pyramid.push(cardHolder);
       pyramidDiv.append(LI);
     }
     pyramidDiv.append($("<br/>"));
   }
   $("#game").append(pyramidDiv);
   $("#game").append($("<div id='stack'></div>"));
-  return pyramid;
 }
 
 
@@ -110,20 +128,26 @@ function createPyramidsGame() {
   // shuffle the pDeck
   pDeck = shuffle(pDeck);
   // create the pyramid with the pDeck
-  createPyramid();
+  createDisplay();
   // the rest of the cards go in the flipdeck
   // shuffle the flipdeck
   flipDeck = shuffle(myDeck);
   // pop the last card off the flipdeck and set it to currentCard
   var currentCard = flipDeck.pop();
+  console.log(currentCard);
   // connect the pyramid and the currentCard to divs
-  var ccard = cardElement(currentCard); 
+  var ccard = $("<div id='current'></div>"); 
+  ccard.text(getText(currentCard));
+  ccard.attr('data-value',currentCard['value']);
   $("#stack").append($("<br/><label for='current'>Current Card: </label>"));
   $("#stack").append(ccard);
-  var newCardButton = $("<button></button>");
+
+  var newCardButton = $("<button>Draw</button>");
   newCardButton.click(newCard);
-  $("#game").append(newCardButton); 
-  playGame();
+  $("#stack").append(newCardButton); 
+
+  $("#stack").append($("<br/><div>Remaining: <span id='remaining'></span></div>"));
+  $("#remaining").text(flipDeck.length);
 }
 
 /*
@@ -131,65 +155,58 @@ create gameplay:
 what happens when user clicks a div element
 */
 
-function playGame() {
-  $('.unhidden').each(function() {
-    $(this).click(useCard);
-  });
-}
-
 function newCard() {
-  $('#current').remove();
+  if (typeof(pDeck[0]) == 'undefined') {
+    alert("you've already won... what are you doing");
+    return;
+  }
+  var current = $('#current');
   var x = flipDeck.pop();
   if (typeof(x) == 'undefined') {
-    console.log("YOU HAVE LOST");
-    $("#stack").append($("<div>U LOSE-- NO MO CARDS</div>"));
+    current.text("U LOSE-- NO MO CARDS");
+    lost = true;
   } else {
-    $("#stack").append(cardElement(x));
+    current.data('value',x['value']);
+    current.text(getText(x));
+    $("#remaining").text(flipDeck.length);
   }
 }
 
 function useCard() {
-  var currentCard = $('#current');
-  var current = currentCard.data('value');
-  var value = $(this).data('value');
-  var idx = $(this).data('idx');
-  if (((value+1)%13 == current) || ((current+1)%13 == value)) {
-    $("#error").text('');
-    currentCard.data('value',value);
-    currentCard.text($(this).text());
-    //remove the card I just used
-    //$(this).remove();
-    $(this).html("&nbsp;&nbsp;&nbsp");
-    /*
-    $(this).removeData('value');
-    $(this).removeData('idx')
-    */
-    //update status of nth card / remove from pile, allow cards under it to be updated
-    updateStatus(idx);
+  if (lost) {
+    alert("YO YOU HAVE LOST STOP TRYING");
   } else {
-    $("#error").text("invalid move because "+$(this).text()+" is not one more or one less than "+currentCard.text());
+    var currentCard = $('#current');
+    var current = currentCard.data('value');
+    var idx = $(this).data('idx');
+    var value = pDeck[idx]['value'];
+    if (((value+1)%13 == current) || ((current+1)%13 == value)) {
+      $("#error").text('');
+      currentCard.text($(this).text());
+      currentCard.data('value',value);
+      // update status of nth card 
+      updateStatus(idx);
+      pDeck[idx] = undefined;
+      $(this).html("&nbsp;&nbsp;&nbsp").removeClass("unhidden").unbind('click');
+      $(this).removeData('idx');
+    } else {
+      $("#error").text("invalid move because "+$(this).text()+" is not one more or one less than "+currentCard.text());
+    }
   }
 }
 
 function updateStatus(cardidx) {
-  var checkThese = $('.hidden');
-  for (var i = 0; i < checkThese.length; i++) {
-    console.log("checking pyramid[",i);
-    pyramid[i]['left'] = (pyramid[i]['left'] == cardidx) ? undefined : pyramid[i]['left'];
-    pyramid[i]['right'] = (pyramid[i]['right'] == cardidx) ? undefined : pyramid[i]['right'];
-    if ((typeof(pyramid[i]['left']) == 'undefined') && (typeof(pyramid[i]['right']) == 'undefined')) {
-      var cardDiv = $('#pyramid > div:nth-of-type('+(i+1)+')');
-      console.log(cardDiv);
-      cardDiv.removeClass('hidden').addClass('unhidden');
-      var card = pDeck[i];
-      var value = card['value'];
-      var suit = card['suit'];
-      cardDiv.attr('data-value',value);
-      cardDiv.attr('data-idx',i);
-      cardDiv.text(getValue(value)+'o'+suit);
-      cardDiv.click(useCard);
-    } else {
-      //do nothing
+  $(".hidden").each(function() {
+    // if the card i just used in useCard is covering another card, remove
+    var i = $(this).data('idx');
+    var present = pyramid[i].indexOf(cardidx);
+    if (present >= 0) {
+      // excise it
+      pyramid[i][present] = undefined;
     }
-  }
+    // this changes cards from hidden to unhidden if possible
+    if (determineStatus(i)) {
+      updateCardDisplay(i);
+    }
+  });
 }
