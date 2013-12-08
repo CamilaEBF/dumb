@@ -13,13 +13,14 @@
       <h1>PYRAMIDZ</h1>
       <h3>As ripped from Neopets</h3>
       <h2>Instructions:</h2>
-      <p>Your objective is to clear the pyramid, which is made of a random subset of an ordinary 52-card playing deck, by stacking the cards on this pile at the top.  A card is allowed to be stacked if it is distance one away from the card currently displayed on the top of the pile.</p>
+      <p>Your objective is to clear the pyramid, which is made of a random subset of an ordinary 52-card playing deck.  Cards are represented by characters that designate their rank and suit (e.g. 2oH is 2 of Hearts).  Cards can be used by stacking the cards on a pile at (the top card is shown under "Current Card").  A card is allowed to be stacked if it is distance one (&#0177;1) away from the Current Card.  If there is no usable card, you may generate a new Current Card by clicking the "Draw" button.  The "Draw" button takes cards from the remainder of the deck that is not in the pyramid.</p>
       <p>Since I have made 0 efforts to ensure that the hidden cards are useful to you, this game is usually not winnable.  Enjoy.</p>
     </div>
     <div id="game">
     </div>
   </div>
   <div id="footer">
+    <p>This game was made by <a href="http://jessicakwok.com">Jessica Kwok</a>, the slowest programmer in the world.  It is very likely that there are bugs.  Please let me know if you find some.</p>
   </div>
   <script type="text/javascript">
     window.onload = createPyramidsGame(); 

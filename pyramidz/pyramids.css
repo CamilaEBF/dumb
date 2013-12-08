@@ -20,3 +20,6 @@ html, body {
 #pyramid .unhidden {
   cursor: pointer;
 }
+#current {
+  font-weight: bold;
+}
