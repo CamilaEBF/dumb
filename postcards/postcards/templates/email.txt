@@ -1,0 +1,4 @@
+You have sent a card to {{ rName }} at
+{{ rAddr}}
+with this image {{ photoUrl }}
+{{ photoTitle }} by {{ photoOwner }}

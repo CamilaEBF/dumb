@@ -1,0 +1,63 @@
+<h1>SEND</h1>
+<p>{{ errormsg }}</p>
+<form action="{% url 'send' %}" method="POST">{% csrf_token %}
+  <h2>where are you sendin from</h2>
+  <p>
+    <label for="sName">From: </label>
+    <input type="text" placeholder="Sender Name" name="sName" id="sName"/>
+  </p>
+ <!--
+  <p>
+    <label for="sStrAddr">Street Addr: (optional) </label>
+    <input type="text" placeholder="Your Street Addr" name="sStrAddr" id="sStrAddr"/>
+  </p>
+  <h3>provide at least one of the following</h3>
+  <p>
+    <label for="sCity">City: </label>
+    <input type="text" placeholder="Your City" name="sCity" id="sCity"/>
+  </p>
+  <p>
+    <label for="sState">State: </label>
+    <input type="text" placeholder="Your State" name="sState" id="sState"/>
+  </p>
+  <p>
+    <label for="sCountry">Country: </label>
+    <input type="text" placeholder="Your Country" name="sCountry" id="sCountry"/>
+  </p>
+  -->
+  <p>
+    <label for="sZip">Zip Code: </label>
+    <input type="text" placeholder="Your Zip" name="sZip" id="sZip"/>
+  </p>
+  <p>
+    <label for="sEmail">Email: (not saved, just for confirmation) </label>
+    <input type="text" placeholder="Your Email" name="sEmail" id="sEmail"/>
+  </p>
+  <h2>where are you sendin to</h2>
+  <p>fill out all unless you want your postcard to be sent to no one</p>
+  <p>
+    <label for="rName">To: </label>
+    <input type="text" placeholder="Recipient Name" name="rName" id="rName"/>
+  </p>
+  <p>
+    <label for="rStrAddr">Street Addr: </label>
+    <input type="text" placeholder="Recipient Street Addr" name="rStrAddr" id="rStrAddr"/>
+  </p>
+  <p>
+    <label for="rCity">City: </label>
+    <input type="text" placeholder="Recipient City" name="rCity" id="rCity"/>
+  </p>
+  <p>
+    <label for="rState">State: </label>
+    <input type="text" placeholder="Recipient State" name="rState" id="rState"/>
+  </p>
+  <p>
+    <label for="rCountry">Country: </label>
+    <input type="text" placeholder="Recipient Country" name="rCountry" id="rCountry"/>
+  </p>
+  <p>
+    <label for="rZip">Zip Code: </label>
+    <input type="text" placeholder="Recipient Zip" name="rZip" id="rZip"/>
+  </p>
+  <input type="submit" value="Make My Postcard!"/>
+</form>
