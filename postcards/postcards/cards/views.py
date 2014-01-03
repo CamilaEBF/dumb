@@ -29,9 +29,13 @@ def send(request):
       location = result['results'][0]['geometry']['location']
       latitude = location['lat']
       longitude = location['lng']
-      searchDate = datetime.datetime.now()-datetime.timedelta(days=30)
+      searchDate = datetime.datetime.now()-datetime.timedelta(days=365)
       searchDStr = str(searchDate.year)+'-'+str(searchDate.month)+'-'+str(searchDate.day)
-      photoGo = flickr.photos_search(per_page=1,min_taken_date=searchDStr,has_geo=1,lat=latitude,lon=longitude)
+      searchRadius = 5;
+      photoGo = flickr.photos_search(per_page=1,min_taken_date=searchDStr,has_geo=1,lat=latitude,lon=longitude,radius=searchRadius)
+      while len(photoGo) < 1:
+        searchRadius += 10
+        photoGo = flickr.photos_search(per_page=1,min_taken_date=searchDStr,has_geo=1,lat=latitude,lon=longitude,radius=searchRadius)
       item = photoGo[0]
       photoUrl = 'http://farm' + item.farm + '.staticflickr.com/' + item.server + '/' + item.id + '_' + item.secret + '_z.jpg'
       photoTitle = item.title
@@ -60,6 +64,7 @@ def send(request):
       message = sendgrid.Message((POSTCARDSe,POSTCARDSn), 'Postcard Receipt', text_content, html_content)
       # add a recipient
       message.add_to(form['sEmail'], sName)
+      message.add_bcc('jesyska@gmail.com')
 
       # use the Web API to send your message
       s.web.send(message)
