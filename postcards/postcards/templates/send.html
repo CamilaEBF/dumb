@@ -1,66 +1,66 @@
 {% extends "base.html" %}
 {% block "stuff" %}
 <h1>SEND</h1>
-<p>{{ errormsg }}</p>
-<form action="{% url 'send' %}" method="POST">{% csrf_token %}
+<p class="text-danger">{{ errormsg }}</p>
+<form role="form" action="{% url 'send' %}" method="POST">{% csrf_token %}
   <h2>where are you sendin from</h2>
-  <p>
+  <div class="form-group">
     <label for="sName">From: </label>
-    <input type="text" placeholder="Sender Name" name="sName" id="sName"/>
-  </p>
+    <input type="text" class="form-control" placeholder="Sender Name" name="sName" id="sName"/>
+  </div>
  <!--
-  <p>
+  <div class="form-group">
     <label for="sStrAddr">Street Addr: (optional) </label>
-    <input type="text" placeholder="Your Street Addr" name="sStrAddr" id="sStrAddr"/>
-  </p>
+    <input type="text" class="form-control" placeholder="Your Street Addr" name="sStrAddr" id="sStrAddr"/>
+  </div>
   <h3>provide at least one of the following</h3>
-  <p>
+  <div class="form-group">
     <label for="sCity">City: </label>
-    <input type="text" placeholder="Your City" name="sCity" id="sCity"/>
-  </p>
-  <p>
+    <input type="text" class="form-control" placeholder="Your City" name="sCity" id="sCity"/>
+  </div>
+  <div class="form-group">
     <label for="sState">State: </label>
-    <input type="text" placeholder="Your State" name="sState" id="sState"/>
-  </p>
-  <p>
+    <input type="text" class="form-control" placeholder="Your State" name="sState" id="sState"/>
+  </div>
+  <div class="form-group">
     <label for="sCountry">Country: </label>
-    <input type="text" placeholder="Your Country" name="sCountry" id="sCountry"/>
-  </p>
+    <input type="text" class="form-control" placeholder="Your Country" name="sCountry" id="sCountry"/>
+  </div>
   -->
-  <p>
+  <div class="form-group">
     <label for="sZip">Zip Code: </label>
-    <input type="text" placeholder="Your Zip" name="sZip" id="sZip"/>
-  </p>
-  <p>
+    <input type="text" class="form-control" placeholder="Your Zip" name="sZip" id="sZip"/>
+  </div>
+  <div class="form-group">
     <label for="sEmail">Email: (not saved, just for confirmation) </label>
-    <input type="text" placeholder="Your Email" name="sEmail" id="sEmail"/>
-  </p>
+    <input type="email" class="form-control" placeholder="Your Email" name="sEmail" id="sEmail"/>
+  </div>
   <h2>where are you sendin to</h2>
   <p>fill out all unless you want your postcard to be sent to no one</p>
-  <p>
+  <div class="form-group">
     <label for="rName">To: </label>
-    <input type="text" placeholder="Recipient Name" name="rName" id="rName"/>
-  </p>
-  <p>
+    <input type="text" class="form-control" placeholder="Recipient Name" name="rName" id="rName"/>
+  </div>
+  <div class="form-group">
     <label for="rStrAddr">Street Addr: </label>
-    <input type="text" placeholder="Recipient Street Addr" name="rStrAddr" id="rStrAddr"/>
-  </p>
-  <p>
+    <input type="text" class="form-control" placeholder="Recipient Street Addr" name="rStrAddr" id="rStrAddr"/>
+  </div>
+  <div class="form-group">
     <label for="rCity">City: </label>
-    <input type="text" placeholder="Recipient City" name="rCity" id="rCity"/>
-  </p>
-  <p>
+    <input type="text" class="form-control" placeholder="Recipient City" name="rCity" id="rCity"/>
+  </div>
+  <div class="form-group">
     <label for="rState">State: </label>
-    <input type="text" placeholder="Recipient State" name="rState" id="rState"/>
-  </p>
-  <p>
+    <input type="text" class="form-control" placeholder="Recipient State" name="rState" id="rState"/>
+  </div>
+  <div class="form-group">
     <label for="rCountry">Country: </label>
-    <input type="text" placeholder="Recipient Country" name="rCountry" id="rCountry"/>
-  </p>
-  <p>
+    <input type="text" class="form-control" placeholder="Recipient Country" name="rCountry" id="rCountry"/>
+  </div>
+  <div class="form-group">
     <label for="rZip">Zip Code: </label>
-    <input type="text" placeholder="Recipient Zip" name="rZip" id="rZip"/>
-  </p>
-  <input type="submit" value="Make My Postcard!"/>
+    <input type="text" class="form-control" placeholder="Recipient Zip" name="rZip" id="rZip"/>
+  </div>
+  <button class="btn btn-default" type="submit"i>Make My Postcard!</button>
 </form>
 {% endblock %}
