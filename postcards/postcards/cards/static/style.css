@@ -1,0 +1,20 @@
+body {
+  background-color: rgb(119,129,184);
+}
+div#hello-box {
+  margin: 10% auto;
+  padding: 5%;
+  width: 50%;
+  border: 1px solid black;
+  text-align: center;
+  letter-spacing: .25em;
+}
+h1#hello {
+  font-weight: 100;
+}
+p#hello-send {
+  font-family: Garamond;
+}
+p#hello-send a {
+  color: rgb(250,223,215);
+}

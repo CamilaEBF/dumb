@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block "stuff" %}
-  <h1>hello</h1>
-  <p><a href="{% url 'send' %}">SEND A POSTCARRRRD</a></p>
+<div id="hello-box">
+  <h1 id="hello">hello</h1>
+  <p id="hello-send"><a href="{% url 'send' %}">SEND A POSTCARRRRD</a></p>
+  <p><i class="fa fa-envelope fa-lg"></i></p>
+</div>
 {% endblock %}
