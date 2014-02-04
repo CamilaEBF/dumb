@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
 <head>
-  <title>*~*~$$~~**PYRAMIDZ*~*~*$$~$~$~</title>
-  <link type="text/css" rel="stylesheet" href="pyramids.css">
-  <script type="text/javascript" src="jquery-2.0.3.min.js"></script>
-  <!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+  <title>PYRAMIDZ</title>
+  <link type="text/css" rel="stylesheet" href="pyramidz.css">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript" src="cards.js"></script>
+  <script type="text/javascript" src="pyramidObj.js"></script>
   <script type="text/javascript" src="pyramidz.js"></script>
 </head>
 <body>
@@ -17,13 +18,30 @@
       <p>Since I have made 0 efforts to ensure that the hidden cards are useful to you, this game is usually not winnable.  Enjoy.</p>
     </div>
     <div id="game">
+      <div id="pyramid"></div>
+      <div id="userPanel">
+        <p>
+          Remaining Cards:
+          <span id="rem"></span>
+        </p>
+        <p id="error"></p>
+        <p>
+          Current Card:
+          <span id="current"></span>
+        </p>
+        <button id="draw">DRAW</button>
+      </div>
+      <button id="start">NEW GAME</button>
     </div>
   </div>
   <div id="footer">
     <p>This game was made by <a href="http://jessicakwok.com">Jessica Kwok</a>, the slowest programmer in the world.  It is very likely that there are bugs.  Please let me know if you find some.</p>
   </div>
   <script type="text/javascript">
-    window.onload = createPyramidsGame(); 
+    window.onload = function() {
+      var a  = new PyramidGame(7);
+      a.startGame();
+    };
   </script>
 </body>
 </html>
