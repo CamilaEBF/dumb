@@ -1,0 +1,35 @@
+<!doctype HTML>
+<html>
+<head>
+  <title>scrapewithjs</title>
+  <script type="text/javascript" src=""></script>
+</head>
+<body>
+  <div id="container">
+    Recipe here: <input type="text" id="url-input" name="url-input"/>
+    <button>parse dem ingredientz</button>
+  </div>
+  <script type="text/javascript">
+    var request = require('request');
+    var cheerio = require('cheerio');
+    var datURL = document.getElementById('url-input').value;
+    
+    request(datURL, function(err, resp, body) {
+      $ = cheerio.load(body);
+      var divs = $('div');
+      divs.each(function() {
+        if ("ingredients" in $(this)) {
+          // get that shit
+/*
+ <?php
+$text = file_get_contents('http://www.stutteringjohnsmith.com/#/0');
+echo (stristr ($text, 'standup')) ? 'found' : 'not found';
+?>
+*/
+
+        }
+      });
+    });
+  </script>
+</body>
+</html>

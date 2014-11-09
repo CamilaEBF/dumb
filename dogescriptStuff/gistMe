@@ -1,0 +1,9 @@
+#!/bin/sh
+
+#in which i use github api to make life good
+
+#ok i have to figure out how to fucking replace newlines with newline character in this JSON so fuck that do it later fu
+title="$1"
+content="$(cat $1)"
+description="${*:2}"
+echo curl -H "Authorization: token 1cef1f276b5b5d65304bdf29b51ab64c4c0a66cf" -X POST "https://api.github.com/gists" -d "{\"description\":\"$description\",\"public\":false,\"files\":{\"$title\":{\"content\":\"$content\"}}}"

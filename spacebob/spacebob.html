@@ -1,0 +1,30 @@
+<!doctype HTML>
+<html>
+<head>
+<title>spacebob</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="Hero.js"></script>
+<script type="text/javascript" src="Gameplay.js"></script>
+<style type="text/css">
+  #hero {
+    width: 5px;
+    height: 5px;
+    background-color: red;
+  }
+  .gameplay {
+    width: 300px;
+    height: 400px;
+  }
+</style>
+</head>
+<body>
+  <div class="gameplay">
+    <div id="hero"></div>
+    <div class="gameplay-physicsNode"></div>
+    <div class="gameplay-levelNode"></div>
+  </div>
+<script type="text/javascript">
+  var g = new Gameplay();
+</script>
+</body>
+</html>

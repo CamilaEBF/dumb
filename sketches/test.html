@@ -1,0 +1,31 @@
+<!doctype HTML>
+<html>
+<head>
+</head>
+<body>
+<div id="search_container"></div>
+<div id="second_search_container"></div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+<script type="text/template" id="search_template">
+  <label>Search</label>
+  <input type="text" id="search_input" />
+  <input type="button" id="search_button" value="Search" />
+</script>
+<script type="text/javascript">
+  SearchView = Backbone.View.extend({
+        initialize: function(){
+           this.render();
+        },
+        render: function() {
+           var template = _.template( $("#search_template").html(), {} );
+           this.$el.html(template);
+        }
+    });
+    
+    var search_view = new SearchView({ el: $("#search_container") });
+    var second_search_view = new SearchView({ el: $("#second_search_container") });
+</script>
+</body>
+</html>

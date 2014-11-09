@@ -1,0 +1,93 @@
+<!doctype HTML>
+<html>
+<head>
+  <title>exquisiteCorpstagram</title>
+  <style>
+    .part {
+      width: 300px;
+    }
+    #c-eyes {
+      height: 150px;
+    }
+    #c-nose {
+      height: 80px;
+    }
+    #c-mouth {
+      height: 90px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>EXQUISITE CORPSE</h1>
+<div id="content">
+  <div class="part" id="c-eyes"></div>
+  <div class="part" id="c-nose"></div>
+  <div class="part" id="c-mouth"></div>
+  <div id="hiddenDiv">
+    <img crossOrigin="anonymous" id="eyes"/>
+    <img crossOrigin="anonymous" id="nose"/>
+    <img crossOrigin="anonymous" id="mouth"/>
+  </div>
+</div>
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://facedetection.jaysalvat.com/js/facedetection/ccv.js"></script>
+  <script type="text/javascript" src="http://facedetection.jaysalvat.com/js/facedetection/face.js"></script>
+  <script type="text/javascript" src="http://facedetection.jaysalvat.com/js/jquery.facedetection.js"></script>
+  <script type="text/javascript">
+    function searchInsta(element,desiredTag){
+      $.ajax({
+        /*
+        url: 'https://api.instagram.com/v1/tags/'+desiredTag+'/media/recent?access_token=38884196.f59def8.93f650fadb7c455ba357b9502635d145',
+        dataType: 'jsonp',
+        success: function(data) {
+          var allPhotos = data['data'];
+          var corpsePart = $('#'+element);
+          var imgURL = allPhotos[0]['images']['low_resolution']['url'];
+        */
+        dataType: "json",
+        url: "http://api.flickr.com/services/rest/?format=json&jsoncallback=?&method=flickr.photosets.getPhotos&api_key=d3142fee7fcfcb2134ce938d1dcffc9f&photoset_id=72157644661060461",
+        success: function(data){
+          var item = data.photoset.photo[Math.floor(Math.random()*data.photoset.photo.length)];
+          var title = item.title+' by '+item.owner;
+          var imgURL = 'http://farm' + item.farm + '.staticflickr.com/' + item.server + '/' + item.id + '_' + item.secret + '_z.jpg';
+          $('#'+element).attr('src',imgURL);
+          $('#'+element).load(function() {
+            var coords = $('#'+element).faceDetection({
+              complete: function() {
+                console.log("DONE");
+              },
+              error: function(img,code,msg) {
+                console.log("error",msg);
+              }
+            });
+            //i only want the first detected face, lol
+            if (coords.length > 0) {
+              var faceCoords = coords[0];
+              var finalW = $('#c-'+element).width();
+              var ratio = finalW/faceCoords.width;
+              var offset = (element == 'eyes') ? 0 : ((element == 'nose') ? finalW*.45 : finalW*.63);
+              var faceW = ratio*(2.5+$('#'+element).width());
+              var faceH = ratio*(5+$('#'+element).height());
+              var faceX = ratio*(faceCoords.x+2.5);
+	      var faceY = ratio*(faceCoords.y+5)+offset;
+              $('#c-'+element).css({
+                'background': 'url('+imgURL+') -'+faceX+'px -'+faceY+'px', 
+                'background-size': faceW+'px Auto'
+              });
+              $('#'+element).hide();
+            }
+          });
+        }
+      });
+    }
+
+    $(document).ready(function() {
+      searchInsta('eyes','selfie');
+      searchInsta('nose','selfie');
+      searchInsta('mouth','makeup');
+    });
+  </script>
+</body>
+</html>
